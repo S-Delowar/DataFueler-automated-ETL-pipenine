@@ -44,7 +44,7 @@ def fetch_data_from_rds():
         table_name = "fuel_consumption_2015_25"
         get_data_query = f"SELECT * from {table_name};"
         
-        logging.info(f"Getting all data from the table {table_name}")
+        logging.info(f"Loading postgres data")
         df = pd.read_sql_query(get_data_query, conn)
         logging.info(f"Loaded {df.shape[0]} records from the database")
         
@@ -77,4 +77,4 @@ def get_validated_postgres_data():
 
 if __name__=="__main__":
     df = get_validated_postgres_data()
-    print(df.shape)
+    print(f"PostgreSQL Data Extracted Successfully. Shape: {df.shape}")

@@ -1,65 +1,56 @@
 import os
 import sys
-from dotenv import load_dotenv
-import psycopg2
 import pandas as pd
-
+from pymongo.mongo_client import MongoClient
+import yaml
 from src.utils.common import load_schema
-from src.utils.exception import CustomException
 from src.utils.logger import logging
+from src.utils.exception import CustomException
+from dotenv import load_dotenv
+
 from src.utils.validation import get_dataframe_validation_errors
 
 load_dotenv()
 
-# create connection
-def get_postgres_connection():
-    rds_host = os.getenv("RDS_HOST")
-    rds_user = os.getenv("RDS_USER")
-    rds_password = os.getenv("RDS_PASSWORD")
-    rds_db = os.getenv("RDS_DB")
-    rds_port = os.getenv("RDS_PORT")
-    
-    try:
-        logging.info(f"Creating connection to RDS Postgresql Database")
-        conn = psycopg2.connect(
-            host = rds_host,
-            user = rds_user,
-            password = rds_password,
-            dbname = rds_db,
-            port = rds_port
-            )
 
-        logging.info(f"Connection established")
-        return conn
+# get mongodb connection
+def get_mongodb_connection():
+    mongodb_uri = os.getenv("MONGODB_URI")
+    db_name = os.getenv("MONGODB_DBNAME")
+    collection_name = os.getenv("MONGODB_COLLECTION")
+    try:
+        logging.info("Connecting MongoDB server")
+        client = MongoClient(mongodb_uri)
+        db = client[db_name]
+        collection = db[collection_name]
+        
+        logging.info("MongoDB server connected")
+        return collection
     except Exception as e:
-        logging.info(f"Error connecting to PostgresQL: {str(e)}")
+        logging.info(f"Error connecting to MongoDB: {str(e)}")
         raise CustomException(e, sys)
 
-# function to get data from postgresql rds
-def fetch_data_from_rds():
-    conn = get_postgres_connection()
-    try:    
-        cur = conn.cursor()
+
+def get_data_from_mongodb():
+    try:       
+        collection = get_mongodb_connection()
         
-        table_name = "fuel_consumption_2015_25"
-        get_data_query = f"SELECT * from {table_name};"
+        logging.info(f"Loading data from mongodb")     
+        data = collection.find()
         
-        logging.info(f"Getting all data from the table {table_name}")
-        df = pd.read_sql_query(get_data_query, conn)
-        logging.info(f"Loaded {df.shape[0]} records from the database")
+        logging.info("Converting fetched data to Dataframe")
+        df = pd.DataFrame(list(data))
         
-        conn.close()
-        logging.info(f"PostgreSQL connection closed.")
-        
+        logging.info(f"Loaded {df.shape[0]} records from db and converted into pandas DataFrame")
+                
         return df
     except Exception as e:
-        logging.info("Connection invalid")
         raise CustomException(e, sys)
 
 
-# get_and_validated postgres data
-def get_validated_postgres_data():
-    df = fetch_data_from_rds()
+# get_and_validated mongodb data
+def get_validated_mongodb_data():
+    df = get_data_from_mongodb()
     if not df.empty:
         validation_schema = load_schema("config/schema.yml")
         validation_errors = get_dataframe_validation_errors(df, validation_schema)
@@ -67,14 +58,16 @@ def get_validated_postgres_data():
             for error in validation_errors:
                 logging.info(error)
         else:
-            logging.info(f"Postgres Data Validated Successfully")
+            logging.info(f"MongoDB Data Validated Successfully")
             return df
             
     else: 
-        logging.info("Empty Dataframe from Postgres Data")
+        logging.info("Empty Dataframe from Postgres Data")        
+        
 
 
 
-if __name__=="__main__":
-    df = get_validated_postgres_data()
-    print(df.shape)
+if __name__ == "__main__":
+    df = get_validated_mongodb_data()
+    print(f"MongoDB Data Extracted Successfully. Shape: {df.shape}")
+    

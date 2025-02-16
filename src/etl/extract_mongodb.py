@@ -13,47 +13,61 @@ from src.utils.validation import get_dataframe_validation_errors
 load_dotenv()
 
 
-def get_data_from_mongodb(mongodb_uri, db_name, collection_name):
+# get mongodb connection
+def get_mongodb_connection():
+    mongodb_uri = os.getenv("MONGODB_URI")
+    db_name = os.getenv("MONGODB_DBNAME")
+    collection_name = os.getenv("MONGODB_COLLECTION")
     try:
         logging.info("Connecting MongoDB server")
         client = MongoClient(mongodb_uri)
         db = client[db_name]
         collection = db[collection_name]
         
-        logging.info("MongoDB server connected")   
-        logging.info(f"Loading data from mongodb collection: {collection_name}") 
+        logging.info("MongoDB server connected")
+        return collection
+    except Exception as e:
+        logging.info(f"Error connecting to MongoDB: {str(e)}")
+        raise CustomException(e, sys)
+
+
+def get_data_from_mongodb():
+    try:       
+        collection = get_mongodb_connection()
         
+        logging.info(f"Loading data from mongodb")     
         data = collection.find()
-        df = pd.DataFrame(list(data))
-        logging.info(f"Loaded {df.shape[0]} records from db and converted into pandas DataFrame")
-        df.drop(columns=["_id"], axis=1, inplace=True)
-        logging.info(f"Drop unnecessary column '_id'")
         
+        logging.info("Converting fetched data to Dataframe")
+        df = pd.DataFrame(list(data))
+        
+        logging.info(f"Loaded {df.shape[0]} records from mongodb database and converted into pandas DataFrame")
+                
         return df
     except Exception as e:
         raise CustomException(e, sys)
-        
-        
 
-if __name__ == "__main__":
-    MONGODB_URI = os.getenv("MONGODB_URI")
-    MONGODB_DBNAME = os.getenv("MONGODB_DBNAME")
-    MONGODB_COLLECTION = os.getenv("MONGODB_COLLECTION")
-    
-    df = get_data_from_mongodb(MONGODB_URI, MONGODB_DBNAME, MONGODB_COLLECTION)
-    
+
+# get_and_validated mongodb data
+def get_validated_mongodb_data():
+    df = get_data_from_mongodb()
     if not df.empty:
-        logging.info(f"validating dataframe")
-        
         validation_schema = load_schema("config/schema.yml")
         validation_errors = get_dataframe_validation_errors(df, validation_schema)
-        
         if validation_errors:
-            logging.info(f"Errors found")
             for error in validation_errors:
                 logging.info(error)
         else:
-            logging.info(f"Validation is successful")
-            df.to_csv("validated_mongodb_data.csv", index=False)
-    else:
-        print("Empty Dataframe from Postgres Data")
+            logging.info(f"MongoDB Data Validated Successfully")
+            return df
+            
+    else: 
+        logging.info("Empty Dataframe from Postgres Data")        
+        
+
+
+
+if __name__ == "__main__":
+    df = get_validated_mongodb_data()
+    print(f"MongoDB Data Extracted Successfully. Shape: {df.shape}")
+    
