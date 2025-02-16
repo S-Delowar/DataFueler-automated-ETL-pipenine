@@ -28,4 +28,5 @@ def get_final_df_on_mongodb_and_postgres_data():
  
 
 if __name__=="__main__":
-    get_final_df_on_mongodb_and_postgres_data()
+    final_df = get_final_df_on_mongodb_and_postgres_data()
+    print(final_df.shape)
