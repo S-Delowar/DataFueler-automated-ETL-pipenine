@@ -32,6 +32,11 @@ def get_final_df_on_mongodb_and_postgres_data():
 
 
 if __name__=="__main__":
-    final_df = get_final_df_on_mongodb_and_postgres_data()
-    print(f"Created final data. Shape {final_df.shape}")
-    print(final_df.columns)
+    try:        
+        final_df = get_final_df_on_mongodb_and_postgres_data()
+        final_df_save_path = "Processed_Data/final_combined_data.csv"
+        final_df.to_csv(final_df_save_path, index=False)
+        
+        logging.info(f"Processed final data saved to  {final_df_save_path}")
+    except Exception as e:
+        raise CustomException(e,sys)

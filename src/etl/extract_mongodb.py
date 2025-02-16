@@ -68,6 +68,13 @@ def get_validated_mongodb_data():
 
 
 if __name__ == "__main__":
-    df = get_validated_mongodb_data()
-    print(f"MongoDB Data Extracted Successfully. Shape: {df.shape}")
+    try:
+        df = get_validated_mongodb_data()
+        mongodb_data_save_path = "Processed_Data/valid_mongodb_data.csv"
+        df.to_csv(mongodb_data_save_path, index=False)
+        print(f"MongoDB data extracted and saved to path '{mongodb_data_save_path}'")
+    except Exception as e:
+        raise CustomException(e, sys)
+        
+    
     

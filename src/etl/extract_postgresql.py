@@ -76,5 +76,10 @@ def get_validated_postgres_data():
 
 
 if __name__=="__main__":
-    df = get_validated_postgres_data()
-    print(f"PostgreSQL Data Extracted Successfully. Shape: {df.shape}")
+    try:
+        df = get_validated_postgres_data()
+        postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
+        df.to_csv(postgres_data_save_path, index=False)
+        print(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
+    except Exception as e:
+        raise CustomException(e, sys)
