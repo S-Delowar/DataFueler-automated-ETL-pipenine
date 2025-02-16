@@ -1,12 +1,13 @@
-import sys
-from src.utils.exception import CustomException
-from src.utils.logger import logging
+import os
+from src.etl.extract_mongodb import get_data_from_mongodb
+
 
 if __name__=="__main__":
-    # logging.info("New log is here")
+    MONGODB_URI = os.getenv("MONGODB_URI")
+    MONGODB_DBNAME = os.getenv("MONGODB_DBNAME")
+    MONGODB_COLLECTION = os.getenv("MONGODB_COLLECTION")
     
-    try:
-        a = 4/0
-        print(a)
-    except Exception as e:
-        raise CustomException(e,sys)
+    df = get_data_from_mongodb(MONGODB_URI, MONGODB_DBNAME, MONGODB_COLLECTION)
+    
+    print(f" from main.py file: shape {df.shape}")
+    
