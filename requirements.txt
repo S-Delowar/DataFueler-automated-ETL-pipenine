@@ -4,3 +4,8 @@ psycopg2-binary
 pymongo
 python-dotenv
 PyYAML
+boto3
+apache-airflow 
+apache-airflow-providers-postgres 
+apache-airflow-providers-mongo 
+apache-airflow-providers-amazon
