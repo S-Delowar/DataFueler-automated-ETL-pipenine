@@ -40,7 +40,11 @@ def get_data_from_mongodb():
         
         logging.info("Converting fetched data to Dataframe")
         df = pd.DataFrame(list(data))
-        df.drop(columns=["_id"], axis=1, inplace=True)
+        
+        if "_id" in df.columns:
+            df.drop(columns=["_id"], axis=1, inplace=True)
+            logging.info(f"Drop unnecessary column '_id'")
+
         logging.info(f"Loaded {df.shape[0]} records from mongodb database and converted into pandas DataFrame")
                 
         return df

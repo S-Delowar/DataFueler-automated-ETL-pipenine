@@ -46,6 +46,8 @@ def fetch_data_from_rds():
         
         logging.info(f"Loading postgres data")
         df = pd.read_sql_query(get_data_query, conn)
+        if df.empty:
+            raise ValueError("PostgreSQL: Query returned no data.")
         logging.info(f"Loaded {df.shape[0]} records from the database")
         
         conn.close()
@@ -60,22 +62,18 @@ def fetch_data_from_rds():
 # get_and_validated postgres data
 def get_validated_postgres_data():
     df = fetch_data_from_rds()
-    if not df.empty:
-        validation_schema = load_schema("config/schema.yml")
-        validation_errors = get_dataframe_validation_errors(df, validation_schema)
-        if validation_errors:
-            for error in validation_errors:
-                logging.info(error)
-        else:
-            logging.info(f"Postgres Data Validated Successfully")
-            postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
-            df.to_csv(postgres_data_save_path, index=False)
-            logging.info(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
-            
-    else: 
-        logging.info("Empty Dataframe from Postgres Data")
-
-
+    validation_schema = load_schema("config/schema.yml")
+    validation_errors = get_dataframe_validation_errors(df, validation_schema)
+    if validation_errors:
+        for error in validation_errors:
+            logging.info(error)
+    else:
+        logging.info(f"Postgres Data Validated Successfully")
+        postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
+        df.to_csv(postgres_data_save_path, index=False)
+        logging.info(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
+        return df
+        
 
 if __name__=="__main__":
     try:
