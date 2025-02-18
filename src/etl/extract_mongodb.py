@@ -40,7 +40,7 @@ def get_data_from_mongodb():
         
         logging.info("Converting fetched data to Dataframe")
         df = pd.DataFrame(list(data))
-        
+        df.drop(columns=["_id"], axis=1, inplace=True)
         logging.info(f"Loaded {df.shape[0]} records from mongodb database and converted into pandas DataFrame")
                 
         return df
@@ -59,6 +59,9 @@ def get_validated_mongodb_data():
                 logging.info(error)
         else:
             logging.info(f"MongoDB Data Validated Successfully")
+            mongodb_data_save_path = "Processed_Data/valid_mongodb_data.csv"
+            df.to_csv(mongodb_data_save_path, index=False)
+            print(f"MongoDB data extracted and saved to path '{mongodb_data_save_path}'")
             return df
             
     else: 
@@ -70,9 +73,7 @@ def get_validated_mongodb_data():
 if __name__ == "__main__":
     try:
         df = get_validated_mongodb_data()
-        mongodb_data_save_path = "Processed_Data/valid_mongodb_data.csv"
-        df.to_csv(mongodb_data_save_path, index=False)
-        print(f"MongoDB data extracted and saved to path '{mongodb_data_save_path}'")
+        print(df.shape)
     except Exception as e:
         raise CustomException(e, sys)
         

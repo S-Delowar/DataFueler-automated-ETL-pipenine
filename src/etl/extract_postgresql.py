@@ -68,7 +68,9 @@ def get_validated_postgres_data():
                 logging.info(error)
         else:
             logging.info(f"Postgres Data Validated Successfully")
-            return df
+            postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
+            df.to_csv(postgres_data_save_path, index=False)
+            logging.info(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
             
     else: 
         logging.info("Empty Dataframe from Postgres Data")
@@ -77,9 +79,6 @@ def get_validated_postgres_data():
 
 if __name__=="__main__":
     try:
-        df = get_validated_postgres_data()
-        postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
-        df.to_csv(postgres_data_save_path, index=False)
-        print(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
+        get_validated_postgres_data()
     except Exception as e:
         raise CustomException(e, sys)

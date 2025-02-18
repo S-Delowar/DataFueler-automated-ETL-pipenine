@@ -1,7 +1,9 @@
 import os
+import sys
 import pandas as pd
 from dotenv import load_dotenv
 
+from src.utils.exception import CustomException
 from src.utils.logger import logging
 
 import boto3
@@ -45,12 +47,19 @@ def upload_file_to_s3(local_filepath, bucket_name, s3_key=None):
 
 
 
+def initiate_uploading_final_data_to_s3():
+    try:
+        # Define final data path
+        final_data_path = "Processed_Data/final_combined_data.csv"
+        # get bucket name from environment
+        bucket_name = os.getenv("S3_BUCKET_NAME")
+        # uploading to s3
+        upload_file_to_s3(final_data_path, bucket_name)
+    except Exception as e:
+        raise CustomException(e, sys)
+
+
 
 
 if __name__=="__main__":
-    # Define final data path
-    final_data_path = "Processed_Data/final_combined_data.csv"
-    # get bucket name from environment
-    bucket_name = os.getenv("S3_BUCKET_NAME")
-    # uploading to s3
-    upload_file_to_s3(final_data_path, bucket_name)
+    initiate_uploading_final_data_to_s3()
