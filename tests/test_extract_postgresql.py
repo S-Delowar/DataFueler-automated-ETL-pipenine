@@ -2,7 +2,7 @@ import io
 import pytest
 import pandas as pd
 from unittest.mock import patch, MagicMock
-from src.etl.extract_postgresql import fetch_data_from_rds
+from src.etl.extract_postgresql import get_dataframe_from_rds
 from src.utils.exception import CustomException
 
 # Test: Successful Data Fetch from PostgreSQL
@@ -12,7 +12,7 @@ def test_fetch_from_postgresql_success(mock_connect):
     mock_df = pd.read_csv(mock_data)
 
     with patch("pandas.read_sql_query", return_value=mock_df):
-        result = fetch_data_from_rds()
+        result = get_dataframe_from_rds()
     
     assert isinstance(result, pd.DataFrame) and result.shape == (2, 2)
     assert 'column1' in result.columns
@@ -27,4 +27,4 @@ def test_fetch_from_postgresql_empty(mock_connect):
     mock_conn.cursor.return_value = mock_cursor
 
     with pytest.raises(CustomException, match="PostgreSQL: Query returned no data."):
-        fetch_data_from_rds()
+        get_dataframe_from_rds()
