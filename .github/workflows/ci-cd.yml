@@ -53,6 +53,11 @@ jobs:
             cd /home/ubuntu
             cd airflow-project && git pull origin main
 
+            # Check if .env file exists
+            if [ ! -f .env ]; then
+                echo ".env file not found. Please ensure the .env file is uploaded to the server."
+                exit 1
+            fi
             echo "Stopping existing containers (if running)"
             docker-compose down
 
