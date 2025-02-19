@@ -1,0 +1,19 @@
+[2025-02-19T11:26:51.041+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-19T11:26:51.073+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_pipeline_with_tasks.load_to_s3 scheduled__2025-02-18T00:00:00+00:00 [queued]>
+[2025-02-19T11:26:51.088+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_pipeline_with_tasks.load_to_s3 scheduled__2025-02-18T00:00:00+00:00 [queued]>
+[2025-02-19T11:26:51.091+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-02-19T11:26:51.113+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): load_to_s3> on 2025-02-18 00:00:00+00:00
+[2025-02-19T11:26:51.123+0000] {standard_task_runner.py:72} INFO - Started process 309 to run task
+[2025-02-19T11:26:51.128+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_pipeline_with_tasks', 'load_to_s3', 'scheduled__2025-02-18T00:00:00+00:00', '--job-id', '20', '--raw', '--subdir', 'DAGS_FOLDER/etl_pipeline.py', '--cfg-path', '/tmp/tmpw_y9lw5w']
+[2025-02-19T11:26:51.133+0000] {standard_task_runner.py:105} INFO - Job 20: Subtask load_to_s3
+[2025-02-19T11:26:51.210+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_pipeline_with_tasks.load_to_s3 scheduled__2025-02-18T00:00:00+00:00 [running]> on host 97ad06b44af4
+[2025-02-19T11:26:51.624+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_pipeline_with_tasks' AIRFLOW_CTX_TASK_ID='load_to_s3' AIRFLOW_CTX_EXECUTION_DATE='2025-02-18T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-18T00:00:00+00:00'
+[2025-02-19T11:26:51.627+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-02-19T11:26:51.678+0000] {logging_mixin.py:190} WARNING - /opt/***/dags/etl_pipeline.py:82 FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+[2025-02-19T11:27:16.485+0000] {load_s3.py:36} INFO - DataFrame successfully uploaded to s3://datafueler-bucket/Processed_Data/fuel_consumption_data.csv
+[2025-02-19T11:27:16.495+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-02-19T11:27:16.512+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-02-19T11:27:16.513+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=etl_pipeline_with_tasks, task_id=load_to_s3, run_id=scheduled__2025-02-18T00:00:00+00:00, execution_date=20250218T000000, start_date=20250219T112651, end_date=20250219T112716
+[2025-02-19T11:27:16.599+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-19T11:27:16.622+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-19T11:27:16.626+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

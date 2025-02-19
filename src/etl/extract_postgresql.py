@@ -3,7 +3,7 @@ import sys
 from dotenv import load_dotenv
 import psycopg2
 import pandas as pd
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
 from src.utils.common import load_schema
 from src.utils.exception import CustomException

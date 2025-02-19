@@ -1,0 +1,9 @@
+apache-airflow
+
+pytest
+pandas
+pymongo
+PyYAML
+psycopg2-binary
+moto
+boto3
