@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   airflow:
-    image: apache/airflow:2.7.3
+    image: apache/airflow
     restart: always
     container_name: airflow
     command: bash -c "pip install -r /opt/airflow/requirements.txt && airflow webserver & airflow scheduler"
