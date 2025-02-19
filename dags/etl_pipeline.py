@@ -68,6 +68,8 @@ with DAG(
         mongo_df = pd.read_json(mongo_json)
         postgres_df = pd.read_json(postgres_json)
         final_df = get_final_combined_data(mongo_df, postgres_df)
+        
+        final_df = final_df.reset_index(drop=True)
         return final_df.to_json()
 
     @task

@@ -1,6 +1,7 @@
 import os
 import sys
 import pandas as pd
+import numpy as np
 from pymongo.mongo_client import MongoClient
 import yaml
 from src.utils.common import load_schema
@@ -11,6 +12,21 @@ from dotenv import load_dotenv
 from src.utils.validation import get_dataframe_validation_errors
 
 load_dotenv()
+
+
+
+def convert_numpy_arrays(record):
+    """
+    Recursively convert numpy arrays in a dictionary to lists.
+    """
+    if isinstance(record, dict):
+        return {k: convert_numpy_arrays(v) for k, v in record.items()}
+    elif isinstance(record, list):
+        return [convert_numpy_arrays(item) for item in record]
+    elif isinstance(record, np.ndarray):
+        return record.tolist()
+    else:
+        return record
 
 
 # get mongodb connection
@@ -38,8 +54,11 @@ def get_data_from_mongodb():
         logging.info(f"Loading data from mongodb")     
         data = collection.find()
         
+        # Convert cursor to list and then convert any numpy arrays in each document
+        data_list = [convert_numpy_arrays(doc) for doc in list(data)]
+        
         logging.info("Converting fetched data to Dataframe")
-        df = pd.DataFrame(list(data))
+        df = pd.DataFrame(data_list)
         
         if "_id" in df.columns:
             df.drop(columns=["_id"], axis=1, inplace=True)
