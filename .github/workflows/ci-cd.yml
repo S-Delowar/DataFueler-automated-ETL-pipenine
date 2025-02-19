@@ -54,11 +54,14 @@ jobs:
             if [ ! -d "airflow-project" ]; then
               echo "Cloning repository for the first time"
               git clone https://github.com/S-Delowar/DataFueler-automated-ETL-pipenine.git airflow-project
+              cd airflow-project
             else
               echo "Repository already exists, pulling latest changes"
               cd airflow-project && git pull origin main
             fi
 
+            echo "Check listed directories"
+            ls
 
             echo "Initialize/update the Airflow metadata database schema"
             # (safe to re-run as it applies migrations only when needed)
