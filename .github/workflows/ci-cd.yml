@@ -56,7 +56,21 @@ jobs:
             echo "Stopping existing containers (if running)"
             docker-compose down
 
+            echo "Writing environment variables to .env file"
+            cat > .env <<EOF
+            RDS_HOST=${{ secrets.RDS_HOST }}
+            RDS_USER=${{ secrets.RDS_USER }}
+            RDS_PASSWORD=${{ secrets.RDS_PASSWORD }}
+            RDS_DB=${{ secrets.RDS_DB }}
+            RDS_PORT=${{ secrets.RDS_PORT }}
+
+            MONGODB_URI=${{ secrets.MONGODB_URI }}
+            MONGODB_DBNAME=${{ secrets.MONGODB_DBNAME }}
+            MONGODB_COLLECTION=${{ secrets.MONGODB_COLLECTION }}
+            S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
+            EOF
+
             echo "Starting Airflow services"
-            docker-compose up -d
+            docker-compose -f docker-compose-prod.yml up -d --build
 
           
