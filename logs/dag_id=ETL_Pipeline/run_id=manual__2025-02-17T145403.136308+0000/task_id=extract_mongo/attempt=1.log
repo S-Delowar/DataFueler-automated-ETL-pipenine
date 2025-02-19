@@ -1,0 +1,33 @@
+[2025-02-17T14:54:06.191+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_mongo manual__2025-02-17T14:54:03.136308+00:00 [queued]>
+[2025-02-17T14:54:06.216+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_mongo manual__2025-02-17T14:54:03.136308+00:00 [queued]>
+[2025-02-17T14:54:06.217+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2025-02-17T14:54:06.238+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): extract_mongo> on 2025-02-17 14:54:03.136308+00:00
+[2025-02-17T14:54:06.245+0000] {standard_task_runner.py:57} INFO - Started process 343 to run task
+[2025-02-17T14:54:06.251+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'ETL_Pipeline', 'extract_mongo', 'manual__2025-02-17T14:54:03.136308+00:00', '--job-id', '23', '--raw', '--subdir', 'DAGS_FOLDER/etl_pipeline.py', '--cfg-path', '/tmp/tmp3x7ogin5']
+[2025-02-17T14:54:06.257+0000] {standard_task_runner.py:85} INFO - Job 23: Subtask extract_mongo
+[2025-02-17T14:54:06.342+0000] {task_command.py:416} INFO - Running <TaskInstance: ETL_Pipeline.extract_mongo manual__2025-02-17T14:54:03.136308+00:00 [running]> on host 471abd7d1b7d
+[2025-02-17T14:54:06.486+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ETL_Pipeline' AIRFLOW_CTX_TASK_ID='extract_mongo' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T14:54:03.136308+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T14:54:03.136308+00:00'
+[2025-02-17T14:54:06.489+0000] {extract_mongodb.py:22} INFO - Connecting MongoDB server
+[2025-02-17T14:54:06.757+0000] {extract_mongodb.py:27} INFO - MongoDB server connected
+[2025-02-17T14:54:06.759+0000] {extract_mongodb.py:38} INFO - Loading data from mongodb
+[2025-02-17T14:54:06.760+0000] {extract_mongodb.py:41} INFO - Converting fetched data to Dataframe
+[2025-02-17T14:54:15.785+0000] {extract_mongodb.py:44} INFO - Loaded 17853 records from mongodb database and converted into pandas DataFrame
+[2025-02-17T14:54:15.799+0000] {extract_mongodb.py:61} INFO - MongoDB Data Validated Successfully
+[2025-02-17T14:54:15.990+0000] {logging_mixin.py:154} INFO - MongoDB data extracted and saved to path 'Processed_Data/valid_mongodb_data.csv'
+[2025-02-17T14:54:15.991+0000] {python.py:194} INFO - Done. Returned value was:        model_year   make  ... co2_rating smog_rating
+0            1995  Acura  ...        NaN         NaN
+1            1995  Acura  ...        NaN         NaN
+2            1995  Acura  ...        NaN         NaN
+3            1995  Acura  ...        NaN         NaN
+4            1995  Acura  ...        NaN         NaN
+...           ...    ...  ...        ...         ...
+17848        2014  Volvo  ...        NaN         NaN
+17849        2014  Volvo  ...        NaN         NaN
+17850        2014  Volvo  ...        NaN         NaN
+17851        2014  Volvo  ...        NaN         NaN
+17852        2014  Volvo  ...        NaN         NaN
+
+[17853 rows x 15 columns]
+[2025-02-17T14:54:16.172+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=ETL_Pipeline, task_id=extract_mongo, execution_date=20250217T145403, start_date=20250217T145406, end_date=20250217T145416
+[2025-02-17T14:54:16.205+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-02-17T14:54:16.243+0000] {taskinstance.py:2778} INFO - 1 downstream tasks scheduled from follow-on schedule check

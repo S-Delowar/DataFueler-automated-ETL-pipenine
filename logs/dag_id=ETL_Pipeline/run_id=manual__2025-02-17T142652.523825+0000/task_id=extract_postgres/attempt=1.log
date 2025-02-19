@@ -1,0 +1,21 @@
+[2025-02-17T14:26:55.012+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_postgres manual__2025-02-17T14:26:52.523825+00:00 [queued]>
+[2025-02-17T14:26:55.023+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_postgres manual__2025-02-17T14:26:52.523825+00:00 [queued]>
+[2025-02-17T14:26:55.024+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2025-02-17T14:26:55.041+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): extract_postgres> on 2025-02-17 14:26:52.523825+00:00
+[2025-02-17T14:26:55.048+0000] {standard_task_runner.py:57} INFO - Started process 364 to run task
+[2025-02-17T14:26:55.080+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'ETL_Pipeline', 'extract_postgres', 'manual__2025-02-17T14:26:52.523825+00:00', '--job-id', '14', '--raw', '--subdir', 'DAGS_FOLDER/etl_pipeline.py', '--cfg-path', '/tmp/tmpm543m4fx']
+[2025-02-17T14:26:55.090+0000] {standard_task_runner.py:85} INFO - Job 14: Subtask extract_postgres
+[2025-02-17T14:26:55.155+0000] {task_command.py:416} INFO - Running <TaskInstance: ETL_Pipeline.extract_postgres manual__2025-02-17T14:26:52.523825+00:00 [running]> on host 52130ddc760f
+[2025-02-17T14:26:55.271+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ETL_Pipeline' AIRFLOW_CTX_TASK_ID='extract_postgres' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T14:26:52.523825+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T14:26:52.523825+00:00'
+[2025-02-17T14:26:55.274+0000] {extract_postgresql.py:23} INFO - Creating connection to RDS Postgresql Database
+[2025-02-17T14:26:56.480+0000] {extract_postgresql.py:32} INFO - Connection established
+[2025-02-17T14:26:56.481+0000] {extract_postgresql.py:47} INFO - Loading postgres data
+[2025-02-17T14:26:56.498+0000] {logging_mixin.py:154} WARNING - /opt/***/src/etl/extract_postgresql.py:48 UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+[2025-02-17T14:26:58.550+0000] {extract_postgresql.py:49} INFO - Loaded 10639 records from the database
+[2025-02-17T14:26:58.551+0000] {extract_postgresql.py:52} INFO - PostgreSQL connection closed.
+[2025-02-17T14:26:58.566+0000] {extract_postgresql.py:70} INFO - Postgres Data Validated Successfully
+[2025-02-17T14:26:58.796+0000] {extract_postgresql.py:73} INFO - Postgres data extracted and saved to path 'Processed_Data/valid_postgres_data.csv'
+[2025-02-17T14:26:58.798+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-02-17T14:26:58.812+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=ETL_Pipeline, task_id=extract_postgres, execution_date=20250217T142652, start_date=20250217T142655, end_date=20250217T142658
+[2025-02-17T14:26:58.875+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-02-17T14:26:58.915+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

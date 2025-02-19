@@ -1,0 +1,78 @@
+[2025-02-17T14:24:41.085+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_mongo scheduled__2025-02-16T00:00:00+00:00 [queued]>
+[2025-02-17T14:24:41.142+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ETL_Pipeline.extract_mongo scheduled__2025-02-16T00:00:00+00:00 [queued]>
+[2025-02-17T14:24:41.145+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2025-02-17T14:24:41.171+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): extract_mongo> on 2025-02-16 00:00:00+00:00
+[2025-02-17T14:24:41.182+0000] {standard_task_runner.py:57} INFO - Started process 310 to run task
+[2025-02-17T14:24:41.188+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'ETL_Pipeline', 'extract_mongo', 'scheduled__2025-02-16T00:00:00+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/etl_pipeline.py', '--cfg-path', '/tmp/tmpn9z8qm9h']
+[2025-02-17T14:24:41.198+0000] {standard_task_runner.py:85} INFO - Job 12: Subtask extract_mongo
+[2025-02-17T14:24:42.436+0000] {task_command.py:416} INFO - Running <TaskInstance: ETL_Pipeline.extract_mongo scheduled__2025-02-16T00:00:00+00:00 [running]> on host 52130ddc760f
+[2025-02-17T14:24:42.588+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ETL_Pipeline' AIRFLOW_CTX_TASK_ID='extract_mongo' AIRFLOW_CTX_EXECUTION_DATE='2025-02-16T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-02-16T00:00:00+00:00'
+[2025-02-17T14:24:42.591+0000] {extract_mongodb.py:22} INFO - Connecting MongoDB server
+[2025-02-17T14:24:42.771+0000] {extract_mongodb.py:27} INFO - MongoDB server connected
+[2025-02-17T14:24:42.771+0000] {extract_mongodb.py:38} INFO - Loading data from mongodb
+[2025-02-17T14:24:42.772+0000] {extract_mongodb.py:41} INFO - Converting fetched data to Dataframe
+[2025-02-17T14:24:48.726+0000] {extract_mongodb.py:44} INFO - Loaded 17853 records from mongodb database and converted into pandas DataFrame
+[2025-02-17T14:24:48.739+0000] {extract_mongodb.py:61} INFO - MongoDB Data Validated Successfully
+[2025-02-17T14:24:48.960+0000] {logging_mixin.py:154} INFO - MongoDB data extracted and saved to path 'Processed_Data/valid_mongodb_data.csv'
+[2025-02-17T14:24:48.960+0000] {python.py:194} INFO - Done. Returned value was:                             _id  model_year  ... co2_rating smog_rating
+0      67b17534e0ccfbcd7422c83b        1995  ...        NaN         NaN
+1      67b17534e0ccfbcd7422c83c        1995  ...        NaN         NaN
+2      67b17534e0ccfbcd7422c83d        1995  ...        NaN         NaN
+3      67b17534e0ccfbcd7422c83e        1995  ...        NaN         NaN
+4      67b17534e0ccfbcd7422c83f        1995  ...        NaN         NaN
+...                         ...         ...  ...        ...         ...
+17848  67b17534e0ccfbcd74230df3        2014  ...        NaN         NaN
+17849  67b17534e0ccfbcd74230df4        2014  ...        NaN         NaN
+17850  67b17534e0ccfbcd74230df5        2014  ...        NaN         NaN
+17851  67b17534e0ccfbcd74230df6        2014  ...        NaN         NaN
+17852  67b17534e0ccfbcd74230df7        2014  ...        NaN         NaN
+
+[17853 rows x 16 columns]
+[2025-02-17T14:24:49.032+0000] {xcom.py:661} ERROR - ("Could not convert ObjectId('67b17534e0ccfbcd7422c83b') with type ObjectId: did not recognize Python value type when inferring an Arrow data type", 'Conversion failed for column _id with type object'). If you are using pickle instead of JSON for XCom, then you need to enable pickle support for XCom in your *** config or make sure to decorate your object with attr.
+[2025-02-17T14:24:49.033+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2479, in xcom_push
+    XCom.set(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/xcom.py", line 244, in set
+    value = cls.serialize_value(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/xcom.py", line 659, in serialize_value
+    return json.dumps(value, cls=XComEncoder).encode("UTF-8")
+  File "/usr/local/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/json.py", line 104, in encode
+    return super().encode(o)
+  File "/usr/local/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/local/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/json.py", line 91, in default
+    return serialize(o)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/serialization/serde.py", line 143, in serialize
+    data, classname, version, is_serialized = _serializers[qn].serialize(o)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/serialization/serializers/pandas.py", line 49, in serialize
+    table = pa.Table.from_pandas(o)
+  File "pyarrow/table.pxi", line 3557, in pyarrow.lib.Table.from_pandas
+  File "/home/airflow/.local/lib/python3.8/site-packages/pyarrow/pandas_compat.py", line 624, in dataframe_to_arrays
+    arrays[i] = maybe_fut.result()
+  File "/usr/local/lib/python3.8/concurrent/futures/_base.py", line 437, in result
+    return self.__get_result()
+  File "/usr/local/lib/python3.8/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+  File "/usr/local/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/pyarrow/pandas_compat.py", line 598, in convert_column
+    raise e
+  File "/home/airflow/.local/lib/python3.8/site-packages/pyarrow/pandas_compat.py", line 592, in convert_column
+    result = pa.array(col, type=type_, from_pandas=True, safe=safe)
+  File "pyarrow/array.pxi", line 316, in pyarrow.lib.array
+  File "pyarrow/array.pxi", line 83, in pyarrow.lib._ndarray_to_array
+  File "pyarrow/error.pxi", line 100, in pyarrow.lib.check_status
+pyarrow.lib.ArrowInvalid: ("Could not convert ObjectId('67b17534e0ccfbcd7422c83b') with type ObjectId: did not recognize Python value type when inferring an Arrow data type", 'Conversion failed for column _id with type object')
+[2025-02-17T14:24:49.045+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=ETL_Pipeline, task_id=extract_mongo, execution_date=20250216T000000, start_date=20250217T142441, end_date=20250217T142449
+[2025-02-17T14:24:49.062+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 12 for task extract_mongo (("Could not convert ObjectId('67b17534e0ccfbcd7422c83b') with type ObjectId: did not recognize Python value type when inferring an Arrow data type", 'Conversion failed for column _id with type object'); 310)
+[2025-02-17T14:24:49.082+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-02-17T14:24:49.108+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
