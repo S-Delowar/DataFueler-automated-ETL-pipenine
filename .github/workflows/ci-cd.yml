@@ -51,34 +51,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu
-            if [ ! -d "airflow-project" ]; then
-              echo "Cloning repository for the first time"
-              git clone https://github.com/S-Delowar/DataFueler-automated-ETL-pipenine.git airflow-project
-              cd airflow-project
-            else
-              echo "Repository already exists, pulling latest changes"
-              cd airflow-project && git pull origin main
-            fi
-
-            echo "Check listed directories"
-            ls
-
-            echo "Initialize/update the Airflow metadata database schema"
-            # (safe to re-run as it applies migrations only when needed)
-            docker-compose run --rm airflow db init
-
-            echo "Create admin user if not already created"
-            docker-compose run --rm airflow users create \
-              --username "${{ secrets.AIRFLOW_ADMIN_USERNAME }}" \
-              --firstname "${{ secrets.AIRFLOW_ADMIN_FIRSTNAME }}" \
-              --lastname "${{ secrets.AIRFLOW_ADMIN_LASTNAME }}" \
-              --role Admin \
-              --email "${{ secrets.AIRFLOW_ADMIN_EMAIL }}" \
-              --password "${{ secrets.AIRFLOW_ADMIN_PASSWORD }}"
+            cd airflow-project && git pull origin main
 
             echo "Stopping existing containers (if running)"
             docker-compose down
 
             echo "Starting Airflow services"
             docker-compose up -d
-  
+
+          

@@ -41,6 +41,7 @@ def get_mongodb_connection():
         collection = db[collection_name]
         
         logging.info("MongoDB server connected")
+        logging.info("=================================================================")
         return collection
     except Exception as e:
         logging.info(f"Error connecting to MongoDB: {str(e)}")
