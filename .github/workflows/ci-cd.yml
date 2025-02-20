@@ -55,7 +55,6 @@ jobs:
               echo "Cloning repository for the first time"
               git clone https://github.com/S-Delowar/DataFueler-automated-ETL-pipenine.git airflow-project
               cd airflow-project
-              docker-compose run --rm airflow db init
               docker-compose run --rm airflow users create \
               --username "${{ secrets.AIRFLOW_ADMIN_USERNAME }}" \
               --firstname "${{ secrets.AIRFLOW_ADMIN_FIRSTNAME }}" \
@@ -89,5 +88,6 @@ jobs:
 
             echo "Starting Airflow services"
             docker-compose up -d --build
+            docker-compose exec airflow airflow db init
 
           
