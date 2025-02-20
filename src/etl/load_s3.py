@@ -34,6 +34,7 @@ def upload_dataframe_to_s3(df, bucket_name, s3_key):
         
         s3_client.put_object(Bucket=bucket_name, Key=s3_key, Body=csv_buffer.getvalue())
         logging.info(f"DataFrame successfully uploaded to s3://{bucket_name}/{s3_key}")
+        logging.info(f"------------------------")
         return True
     except Exception as e:
         raise CustomException(e, sys)
