@@ -84,8 +84,8 @@ def get_validated_mongodb_data():
         else:
             logging.info(f"MongoDB Data Validated Successfully")
             mongodb_data_save_path = "Processed_Data/valid_mongodb_data.csv"
-            df.to_csv(mongodb_data_save_path, index=False)
-            print(f"MongoDB data extracted and saved to path '{mongodb_data_save_path}'")
+            # df.to_csv(mongodb_data_save_path, index=False)
+            # print(f"MongoDB data extracted and saved to path '{mongodb_data_save_path}'")
             return df
             
     else: 

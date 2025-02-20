@@ -122,8 +122,8 @@ def get_validated_postgres_data():
     else:
         logging.info(f"Postgres Data Validated Successfully")
         postgres_data_save_path = "Processed_Data/valid_postgres_data.csv"
-        df.to_csv(postgres_data_save_path, index=False)
-        logging.info(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
+        # df.to_csv(postgres_data_save_path, index=False)
+        # logging.info(f"Postgres data extracted and saved to path '{postgres_data_save_path}'")
         return df
         
 

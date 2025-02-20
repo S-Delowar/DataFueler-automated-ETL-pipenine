@@ -51,7 +51,24 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu
-            cd airflow-project && git pull origin main
+            if [ ! -d "airflow-project" ]; then
+              echo "Cloning repository for the first time"
+              git clone https://github.com/S-Delowar/DataFueler-automated-ETL-pipenine.git airflow-project
+              cd airflow-project
+              docker-compose run --rm airflow db init
+              docker-compose run --rm airflow users create \
+              --username "${{ secrets.AIRFLOW_ADMIN_USERNAME }}" \
+              --firstname "${{ secrets.AIRFLOW_ADMIN_FIRSTNAME }}" \
+              --lastname "${{ secrets.AIRFLOW_ADMIN_LASTNAME }}" \
+              --role Admin \
+              --email "${{ secrets.AIRFLOW_ADMIN_EMAIL }}" \
+              --password "${{ secrets.AIRFLOW_ADMIN_PASSWORD }}"
+
+              sudo chown -R 1000:0 ./dags ./logs ./plugins
+            else
+              echo "Repository already exists, pulling latest changes"
+              cd airflow-project && git pull origin main
+            fi
 
             echo "Stopping existing containers (if running)"
             docker-compose down
@@ -71,6 +88,6 @@ jobs:
             EOF
 
             echo "Starting Airflow services"
-            docker-compose -f docker-compose-prod.yml up -d --build
+            docker-compose up -d --build
 
           

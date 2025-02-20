@@ -23,8 +23,8 @@ def get_final_combined_data(mongodb_df, postgres_df, final_fields=final_col_name
         
         # save as csv file
         final_data_path = "Processed_Data/final_combined_data.csv"
-        final_df.to_csv(final_data_path, index=False)
-        logging.info(f"Final data saved to directory '{final_data_path}'")
+        # final_df.to_csv(final_data_path, index=False)
+        # logging.info(f"Final data saved to directory '{final_data_path}'")
         
         return final_df
 
