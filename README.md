@@ -13,6 +13,8 @@ The project involves building an end-to-end ETL (Extract, Transform, Load) data 
 - **Automation & CI/CD:** GitHub Actions
 - **Other:** boto3, pytest, Docker
 
+![](images/airflow_ui_ec2.jpg)
+
 ## Workflow Breakdown
 
 ### 1. Integrating Apache Airflow
