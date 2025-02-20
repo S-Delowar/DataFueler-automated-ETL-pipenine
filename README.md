@@ -65,3 +65,25 @@ A CI/CD pipeline is implemented to automate testing and deployment of the Airflo
      - Creates an Airflow admin user if necessary.
      - Restarts Airflow to apply changes.
 
+## GitHub Secrets 
+- AIRFLOW_ADMIN_EMAIL
+- AIRFLOW_ADMIN_FIRSTNAME
+- AIRFLOW_ADMIN_LASTNAME
+- AIRFLOW_ADMIN_PASSWORD
+- AIRFLOW_ADMIN_USERNAME
+- AWS_ACCESS_KEY_ID
+- AWS_ACCOUNT_ID
+- AWS_REGION
+- AWS_SECRET_ACCESS_KEY
+- EC2_HOST
+- EC2_SSH_KEY
+- EC2_USERNAME
+- MONGODB_COLLECTION
+- MONGODB_DBNAME
+- MONGODB_URI
+- RDS_DB
+- RDS_HOST
+- RDS_PASSWORD
+- RDS_PORT
+- RDS_USER
+- S3_BUCKET_NAME
