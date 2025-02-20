@@ -1,0 +1,146 @@
+[2025-02-20T09:22:57.320+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-20T09:22:57.341+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_pipeline_with_tasks.extract_mongodb manual__2025-02-20T09:22:54.667019+00:00 [queued]>
+[2025-02-20T09:22:57.357+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_pipeline_with_tasks.extract_mongodb manual__2025-02-20T09:22:54.667019+00:00 [queued]>
+[2025-02-20T09:22:57.359+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-02-20T09:22:57.381+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): extract_mongodb> on 2025-02-20 09:22:54.667019+00:00
+[2025-02-20T09:22:57.397+0000] {standard_task_runner.py:72} INFO - Started process 814 to run task
+[2025-02-20T09:22:57.402+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'etl_pipeline_with_tasks', 'extract_mongodb', 'manual__2025-02-20T09:22:54.667019+00:00', '--job-id', '58', '--raw', '--subdir', 'DAGS_FOLDER/etl_pipeline.py', '--cfg-path', '/tmp/tmpj9gh6eqj']
+[2025-02-20T09:22:57.407+0000] {standard_task_runner.py:105} INFO - Job 58: Subtask extract_mongodb
+[2025-02-20T09:22:57.484+0000] {task_command.py:467} INFO - Running <TaskInstance: etl_pipeline_with_tasks.extract_mongodb manual__2025-02-20T09:22:54.667019+00:00 [running]> on host edca0d367328
+[2025-02-20T09:22:57.622+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_pipeline_with_tasks' AIRFLOW_CTX_TASK_ID='extract_mongodb' AIRFLOW_CTX_EXECUTION_DATE='2025-02-20T09:22:54.667019+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-20T09:22:54.667019+00:00'
+[2025-02-20T09:22:57.625+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-02-20T09:22:57.631+0000] {extract_mongodb.py:38} INFO - Connecting MongoDB server
+[2025-02-20T09:22:58.382+0000] {extract_mongodb.py:47} INFO - Error connecting to MongoDB: The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+[2025-02-20T09:22:58.384+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 39, in get_mongodb_connection
+    client = MongoClient(mongodb_uri)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/synchronous/mongo_client.py", line 784, in __init__
+    res = uri_parser.parse_uri(
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/uri_parser.py", line 558, in parse_uri
+    nodes = dns_resolver.get_hosts()
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 141, in get_hosts
+    _, nodes = self._get_srv_response_and_hosts(True)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 120, in _get_srv_response_and_hosts
+    results = self._resolve_uri(encapsulate_errors)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 114, in _resolve_uri
+    raise ConfigurationError(str(exc)) from None
+pymongo.errors.ConfigurationError: The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 53, in get_data_from_mongodb
+    collection = get_mongodb_connection()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 48, in get_mongodb_connection
+    raise CustomException(e, sys)
+src.utils.exception.CustomException: Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 39 error message The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/decorators/base.py", line 266, in execute
+    return_value = super().execute(context)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+  File "/opt/airflow/dags/etl_pipeline.py", line 48, in extract_mongodb
+    mongo_df = get_validated_mongodb_data()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 77, in get_validated_mongodb_data
+    df = get_data_from_mongodb()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 72, in get_data_from_mongodb
+    raise CustomException(e, sys)
+src.utils.exception.CustomException: Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 53 error message Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 39 error message The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+[2025-02-20T09:22:58.421+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_pipeline_with_tasks, task_id=extract_mongodb, run_id=manual__2025-02-20T09:22:54.667019+00:00, execution_date=20250220T092254, start_date=20250220T092257, end_date=20250220T092258
+[2025-02-20T09:22:58.466+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-02-20T09:22:58.469+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 58 for task extract_mongodb (Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 53 error message Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 39 error message The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.; 814)
+Traceback (most recent call last):
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 39, in get_mongodb_connection
+    client = MongoClient(mongodb_uri)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/synchronous/mongo_client.py", line 784, in __init__
+    res = uri_parser.parse_uri(
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/uri_parser.py", line 558, in parse_uri
+    nodes = dns_resolver.get_hosts()
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 141, in get_hosts
+    _, nodes = self._get_srv_response_and_hosts(True)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 120, in _get_srv_response_and_hosts
+    results = self._resolve_uri(encapsulate_errors)
+  File "/home/airflow/.local/lib/python3.9/site-packages/pymongo/srv_resolver.py", line 114, in _resolve_uri
+    raise ConfigurationError(str(exc)) from None
+pymongo.errors.ConfigurationError: The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 53, in get_data_from_mongodb
+    collection = get_mongodb_connection()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 48, in get_mongodb_connection
+    raise CustomException(e, sys)
+src.utils.exception.CustomException: Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 39 error message The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/decorators/base.py", line 266, in execute
+    return_value = super().execute(context)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+  File "/opt/airflow/dags/etl_pipeline.py", line 48, in extract_mongodb
+    mongo_df = get_validated_mongodb_data()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 77, in get_validated_mongodb_data
+    df = get_data_from_mongodb()
+  File "/opt/airflow/src/etl/extract_mongodb.py", line 72, in get_data_from_mongodb
+    raise CustomException(e, sys)
+src.utils.exception.CustomException: Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 53 error message Error occurred in python script name /opt/airflow/src/etl/extract_mongodb.py line number 39 error message The DNS query name does not exist: _mongodb._tcp.cluster0.p11it.mongodb.net.
+[2025-02-20T09:22:58.501+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-02-20T09:22:58.540+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-20T09:22:58.544+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
