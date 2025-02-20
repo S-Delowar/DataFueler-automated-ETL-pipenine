@@ -83,11 +83,11 @@ jobs:
             docker-compose exec airflow airflow db init
 
             echo "Checking if Airflow admin user exists..."
-            EXISTING_USER=$(docker-compose exec airflow-scheduler airflow users list | grep -c "${{ secrets.AIRFLOW_ADMIN_USERNAME }}")
+            EXISTING_USER=$(docker-compose exec airflow airflow users list | grep -c "${{ secrets.AIRFLOW_ADMIN_USERNAME }}")
 
             if [ "$EXISTING_USER" -eq "0" ]; then
               echo "Admin user does not exist. Creating a new admin user..."
-              docker-compose exec airflow-scheduler airflow users create \
+              docker-compose exec airflow airflow users create \
                 --username "${{ secrets.AIRFLOW_ADMIN_USERNAME }}" \
                 --firstname "${{ secrets.AIRFLOW_ADMIN_FIRSTNAME }}" \
                 --lastname "${{ secrets.AIRFLOW_ADMIN_LASTNAME }}" \
